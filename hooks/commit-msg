@@ -1,0 +1,68 @@
+#!/usr/bin/env ruby
+
+# v0.1.0 - 2017.09.17
+#
+# 	Integração Git/ALM: Regra de validação para comentário do commit manual
+#	Comportamento esperado : Impedir o commit caso o comentário informado não contenha a Regex
+#	Requisitos: Ruby 2.4
+#
+
+message_file = ARGV[0]
+message = File.read(message_file)
+
+# Massa de teste
+#
+# Regex foi testada com dados abaixo em https://regexr.com/
+#
+# Task - mensagem mensagem (miss)
+# Task 0 - mensagem mensagem (hit)
+# _Task 0 - mensagem mensagem (miss)
+# ATask 0 - mensagem mensagem (miss)
+#  Task 0 - mensagem mensagem (hit)
+# .Task 0 - mensagem mensagem (hit)
+#	Task 0 - mensagem mensagem (hit)
+# Task  09384984 - mensagem mensagem (miss)
+# Task 09384984 - mensagem mensagem (hit)
+# Task 09384984- mensagem mensagem (hit)
+# Task 09384984 mensagem mensagem (hit)
+# Task 0982 - mensagem mensagem (hit)
+# Task 120983983098 - mensagem mensagem (hit)
+# task 120983983098 - mensagem mensagem (hit)
+# mensagem mensagem Task 120983983098 (hit)
+# mensagem Task 120983983098 mensagem (hit)
+# mensagem mensagem task 120983983098 (hit)
+# mensagem task 120983983098 mensagem (hit)
+# mensagem mensagem TASK 120983983098 (hit)
+# mensagem TASK 120983983098 mensagem (hit)
+
+# Bug - mensagem mensagem (miss)
+# Bug 0 - mensagem mensagem (hit)
+# _Bug 0 - mensagem mensagem (miss)
+# ABug 0 - mensagem mensagem (miss)
+ # Bug 0 - mensagem mensagem (hit)
+# .Bug 0 - mensagem mensagem (hit)
+#	Bug 0 - mensagem mensagem (hit)
+# Bug  09384984 - mensagem mensagem (miss)
+# Bug 09384984 - mensagem mensagem (hit)
+# Bug 09384984- mensagem mensagem (hit)
+# Bug 09384984 mensagem mensagem (hit)
+# Bug 0982 - mensagem mensagem (hit)
+# Bug 120983983098 - mensagem mensagem (hit)
+# bug 120983983098 - mensagem mensagem (hit)
+# mensagem mensagem Bug 120983983098 (hit)
+# mensagem Bug 120983983098 mensagem (hit)
+# mensagem mensagem bug 120983983098 (hit)
+# mensagem bug 120983983098 mensagem (hit)
+# mensagem mensagem BUG 120983983098 (hit)
+# mensagem BUG 120983983098 mensagem (hit)
+
+# Bug Task 09384984 mensagem mensagem (hit)
+# Task Bug 09384984 mensagem mensagem (hit)
+
+$regex = /\b(Task|task|TASK|Bug|bug|BUG) \d+/
+
+# regra de validação com base na regex
+if !$regex.match(message)
+  puts "[.git/hooks/commit-msg (Git/ALM)] task/bug id not found on commit message"
+  exit 1
+end

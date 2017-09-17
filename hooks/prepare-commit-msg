@@ -1,0 +1,21 @@
+#!/usr/bin/env ruby
+ 
+# v0.1.0 - 2017.09.17
+#
+# 	Integração Git/ALM: Regra de validação para comentário do commit manual
+#	  Hook prepare-commit-msg: Caso a operação seja de merge, sugere mensagem padrão para comentário
+#	  Requisitos: Ruby 2.4
+#
+
+message_file = ARGV[0]
+original_message = File.read(message_file)
+
+merge_commit_msg = "Task 123456 - Merge Commit (Git/ALM)"
+
+if ARGV[1] == "merge"
+  File.open(message_file, 'w') { |f| f.write merge_commit_msg }
+end
+
+#if ARGV[1] == "commit"
+#  File.open(message_file, 'w') { |f| f.write original_message }
+#end
