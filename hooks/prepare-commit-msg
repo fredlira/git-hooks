@@ -1,24 +1,28 @@
 #!/usr/bin/env ruby
  
-# v0.1.0 - 2017.09.17
+#   v0.1.0 - 2017.09.17
 #
-# 	Integração Git/ALM: Regra de validação para comentário do commit manual
+# 	 Integração Git/ALM: Regra de validação para comentário do autocommit (merge commit)
 #	  Hook prepare-commit-msg: Caso a operação seja de merge, sugere mensagem padrão para comentário
 #	  Requisitos: Ruby 2.4
 #
+#   Referência: https://git-scm.com/docs/githooks
 
 message_file = ARGV[0]
 original_message = File.read(message_file)
 
 prefix = '[.git/hooks/prepare-commit-msg (Git/ALM)]'
 alm_autocommit_task_number = 123456
-merge_commit_msg = "#{prefix} Task #{alm_autocommit_task_number} - Merge Commit"
-# merge_commit_msg = (prefix << ' Task \' << alm_autocommit_task_number << ' - Merge Commit')
 
 if ARGV[1] == 'merge'
+  merge_commit_msg = "#{prefix} Task #{alm_autocommit_task_number} - Merge Commit"
   File.open(message_file, 'w') { |f| f.write merge_commit_msg }
 end
 
 #if ARGV[1] == 'commit'
-#  File.open(message_file, 'w') { |f| f.write original_message }
+#  do something
+#end
+
+#if ARGV[1] == 'template'
+#  do something
 #end
