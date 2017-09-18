@@ -10,12 +10,15 @@
 message_file = ARGV[0]
 original_message = File.read(message_file)
 
-merge_commit_msg = "Task 123456 - Merge Commit (Git/ALM)"
+prefix = '[.git/hooks/prepare-commit-msg (Git/ALM)]'
+alm_autocommit_task_number = 123456
+merge_commit_msg = "#{prefix} Task #{alm_autocommit_task_number} - Merge Commit"
+# merge_commit_msg = (prefix << ' Task \' << alm_autocommit_task_number << ' - Merge Commit')
 
-if ARGV[1] == "merge"
+if ARGV[1] == 'merge'
   File.open(message_file, 'w') { |f| f.write merge_commit_msg }
 end
 
-#if ARGV[1] == "commit"
+#if ARGV[1] == 'commit'
 #  File.open(message_file, 'w') { |f| f.write original_message }
 #end

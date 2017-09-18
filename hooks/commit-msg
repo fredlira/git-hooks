@@ -3,8 +3,8 @@
 # v0.1.0 - 2017.09.17
 #
 # 	Integração Git/ALM: Regra de validação para comentário do commit manual
-#	Comportamento esperado : Impedir o commit caso o comentário informado não contenha a Regex
-#	Requisitos: Ruby 2.4
+#	  Hook commit-msg: Impedir o commit caso o comentário informado não contenha a Regex
+#	  Requisitos: Ruby 2.4
 #
 
 message_file = ARGV[0]
@@ -59,10 +59,12 @@ message = File.read(message_file)
 # Bug Task 09384984 mensagem mensagem (hit)
 # Task Bug 09384984 mensagem mensagem (hit)
 
+prefix = "[.git/hooks/commit-msg (Git/ALM)]"
+
 $regex = /\b(Task|task|TASK|Bug|bug|BUG) \d+/
 
 # regra de validação com base na regex
 if !$regex.match(message)
-  puts "[.git/hooks/commit-msg (Git/ALM)] task/bug id not found on commit message"
+  puts (prefix << ' task/bug id not found on commit message')
   exit 1
 end
