@@ -9,7 +9,7 @@
 #   Referência: https://git-scm.com/docs/githooks
 
 message_file = ARGV[0]
-original_message = File.read(message_file)
+#original_message = File.read(message_file)
 
 prefix = '[.git/hooks/prepare-commit-msg (Git/ALM)]'
 alm_autocommit_task_number = 123456
