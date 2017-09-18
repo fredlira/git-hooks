@@ -1,11 +1,12 @@
 #!/usr/bin/env ruby
 
-# v0.1.0 - 2017.09.17
+#   v0.1.0 - 2017.09.17
 #
-# 	Integração Git/ALM: Regra de validação para comentário do commit manual
+#  	Integração Git/ALM: Regra de validação para comentário do commit manual
 #	  Hook commit-msg: Impedir o commit caso o comentário informado não contenha a Regex
 #	  Requisitos: Ruby 2.4
 #
+#   Referência: https://git-scm.com/docs/githooks
 
 message_file = ARGV[0]
 message = File.read(message_file)
@@ -39,7 +40,7 @@ message = File.read(message_file)
 # Bug 0 - mensagem mensagem (hit)
 # _Bug 0 - mensagem mensagem (miss)
 # ABug 0 - mensagem mensagem (miss)
- # Bug 0 - mensagem mensagem (hit)
+#  Bug 0 - mensagem mensagem (hit)
 # .Bug 0 - mensagem mensagem (hit)
 #	Bug 0 - mensagem mensagem (hit)
 # Bug  09384984 - mensagem mensagem (miss)
